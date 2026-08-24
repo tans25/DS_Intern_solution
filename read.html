@@ -1,0 +1,92 @@
+<!doctype html><meta charset="utf-8">
+<style>
+*{box-sizing:border-box}
+body{font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+     color:#22252A;max-width:860px;margin:0 auto;padding:44px 26px 90px}
+h1{font-size:25px;margin:0 0 4px}
+h2{font-size:17px;margin:40px 0 10px;padding-bottom:6px;border-bottom:1px solid #E5E3DE}
+h3{margin:0 0 3px;font-size:16px}
+h4{font-size:14px;margin:24px 0 6px;color:#4B5058}
+.sub{color:#6B7280;font-size:13px;margin-bottom:6px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid #EDEBE6}
+th{color:#6B7280;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.grp td{border-bottom:none;padding-bottom:2px}
+tr.grp2 td{padding-top:2px}
+.tag{display:inline-block;white-space:nowrap;padding:2px 9px;border-radius:9px;font-size:11px;
+     font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.ok{background:#E4EFE9;color:#2E6F55} .warn{background:#FBF0DC;color:#8A5D12}
+.bad{background:#F8E5E3;color:#B4483C} .none{background:#EEECE7;color:#6B7280}
+.card{border:1px solid #E5E3DE;border-left-width:3px;border-radius:5px;padding:14px 18px;margin:14px 0}
+.card.ok{border-left-color:#2E6F55} .card.warn{border-left-color:#C98B27}
+.card.bad{border-left-color:#B4483C} .card.none{border-left-color:#9CA3AF}
+.card .why{color:#4B5058;margin:8px 0 0}
+.k{color:#6B7280;font-size:12.5px}
+.note{background:#FAF9F7;border:1px solid #E5E3DE;border-radius:5px;padding:12px 16px;
+      font-size:13.5px;color:#4B5058;margin:14px 0}
+.answer{background:#F2F7F4;border:1px solid #CFE0D7;border-radius:6px;padding:18px 20px;margin:6px 0 18px}
+.answer .big{font-size:21px;font-weight:700;color:#2E6F55;display:block;margin-bottom:5px}
+.big{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+ul{margin:8px 0 0;padding-left:20px} li{margin:5px 0}
+.foot{margin-top:44px;padding-top:14px;border-top:1px solid #E5E3DE;color:#9CA3AF;font-size:12px}
+em.q{font-style:normal;background:#FBF0DC;padding:0 3px}
+</style>
+<h1>SignalDesk — what the numbers can and can't tell you</h1>
+<p class='sub'>2026-08-01 to 2026-08-07 &middot; source: product_usage_events.csv &middot; 39 rows used, 2 excluded</p>
+<h2>1 &nbsp;Which workflow seems most useful right now?</h2>
+<div class='answer'><span class='big'>Lead summary</span>Highest acceptance on its own intake source — <strong>65.8%</strong> via email, n=310 — and ahead of Reply draft on <em>both</em> of its sources, even though it looks marginally worse once you combine them. That combined number is the misleading one; section 4 explains why.</div>
+<div class='card ok'><h3>Lead summary &nbsp;<span class='tag ok'>Working</span> <span class='k'>Sales</span></h3><div>65.8% acceptance via email, 49.3% when typed in manually. 450 sessions across 7 days, 78% reaching an output, 9.7% of outputs flagged.</div><div class='why'><strong>How much to trust this:</strong> Confident. Full week of data, healthy volume, no contradicting signal.</div></div>
+<div class='card bad'><h3>Reply draft &nbsp;<span class='tag bad'>Was healthy, then broke</span> <span class='k'>Support</span></h3><div>Ran 71%&ndash;64% for six days, then fell to 27% on 2026-08-07 with flags at 71% and rating at 2.1. Sessions dropped 75 &rarr; 30 the same day, so fewer people used it at all.</div><div class='why'><strong>How much to trust this:</strong> Not confident about the cause. Three explanations fit — see section 5.</div></div>
+<div class='card none'><h3>Feedback clustering &nbsp;<span class='tag none'>Not yet measurable</span> <span class='k'>Product</span></h3><div>Only 207 sessions, and 33% never reach an output at all — the weakest completion of the three. Its two sources perform about the same (43.6% via csv upload against 44.8% manual), so whatever limits it isn't how work arrives.</div><div class='why'><strong>How much to trust this:</strong> Low confidence. Too little traffic for the rates to mean much. Not a red flag, just thin.</div></div>
+<h4>Which numbers this answer rests on</h4><p><strong>Trusted:</strong> acceptance rate — read per source, never pooled — and user rating. <strong>Flagged as unreliable:</strong> median confidence, which rose every day of the week including the worst one, and average minutes saved, which barely varies and is self-estimated. Flag rate sits in between: useful as a tripwire, not as a quality score. Section 2 has the full ranking, section 3 the evidence.</p>
+<h2>2 &nbsp;Which metrics to act on</h2>
+<table><tr><th>Metric</th><th>Verdict</th><th>Why</th></tr>
+<tr><td><strong>Acceptance rate</strong></td><td><span class='tag ok'>Trust</span></td><td>The most direct evidence a human found the output usable. Reliable when read per source; misleading when pooled across sources — see section 4.</td></tr>
+<tr><td><strong>User rating</strong></td><td><span class='tag ok'>Trust</span></td><td>Moves with acceptance, and it caught the 2026-08-07 drop — fell to 2.1 from 4.0. One row is missing a rating, so coverage is incomplete.</td></tr>
+<tr><td><strong>Flag rate</strong></td><td><span class='tag warn'>Tripwire only</span></td><td>Three different things produce a flag: worse output, stricter policy, or more careful users. Flags also can't be cleanly separated from acceptance — on at least one day accepted + flagged exceeds completed, so some outputs are both. Watch it for movement; don't score with it.</td></tr>
+<tr><td><strong>Avg minutes saved</strong></td><td><span class='tag warn'>Low trust</span></td><td>Within each workflow this hardly moves (std 1.14, 0.77, 1.50). It behaves like a per-workflow constant with jitter rather than a measurement, and it's self-estimated.</td></tr>
+<tr><td><strong>Median confidence</strong></td><td><span class='tag bad'>Do not use</span></td><td>Rose every single day (0.82 &rarr; 0.91) while acceptance fell 71% &rarr; 27%. It peaked on the worst day in the export. A dashboard tracking confidence would have shown a rising green line straight through the failure.</td></tr>
+</table>
+<h2>3 &nbsp;The evidence behind those calls</h2>
+<h4>Rows we refused to count</h4>
+<table><tr><th>Date</th><th>Workflow</th><th>Source</th><th class='n'>Sessions</th><th>Why, and how it would skew the result</th></tr>
+<tr><td>2026-08-05</td><td>Lead summary</td><td>email</td><td class='n'>140</td><td>A demo account. Volume more than doubles while acceptance, rating, confidence and minutes-saved all jump at once, then return to baseline the next day. Real usage doesn't improve on five dimensions simultaneously. Left in, it pulls this workflow's acceptance up by several points.</td></tr>
+<tr><td>2026-08-05</td><td>Lead summary</td><td>email</td><td class='n'>140</td><td>Identical to the row above on every numeric field — an export bug. Counting it double-counts real work, inflating sessions and accepted totals together.</td></tr>
+</table>
+<div class='note'><strong>Together they change which workflow looks biggest.</strong><br>Lead summary: 730 &rarr; <strong>450</strong> &middot; Reply draft: 510 &rarr; <strong>510</strong> &middot; Feedback clustering: 207 &rarr; <strong>207</strong><br>The busiest workflow is <strong>Reply draft</strong>, not Lead summary — and since both excluded rows belong to Lead summary, nothing else moved.</div>
+<h4>Incomplete days</h4>
+<p>Every full day has 6 rows — one per workflow and source. These don't:</p><ul>
+<li><strong>2026-08-05</strong> — 5 rows. Absent: Lead summary / email. Not zero sessions; the rows are missing from the export entirely.</li>
+<li><strong>2026-08-07</strong> — 4 rows. Absent: Lead summary / manual, Reply draft / manual. Not zero sessions; the rows are missing from the export entirely.</li>
+</ul><p class='k'>Any day-over-day comparison crossing these dates compares different populations. Nobody has confirmed why they're short — worth asking whoever owns the export, because if manual entry was switched off deliberately, those days aren't comparable at all.</p>
+<h4>Why confidence can't be trusted</h4>
+<p>Below is Reply draft on the <strong>queue</strong> source — the one workflow-and-source combination present on all 7 days, so nothing here moves because the mix changed:</p>
+<table><tr><th>Date</th><th class='n'>Sessions</th><th class='n'>Acceptance</th><th class='n'>Flag rate</th><th class='n'>Confidence</th><th class='n'>Rating</th></tr>
+<tr><td>2026-08-01</td><td class='n'>55</td><td class='n'>71%</td><td class='n'>12%</td><td class='n'>0.82</td><td class='n'>4.0</td></tr>
+<tr><td>2026-08-02</td><td class='n'>61</td><td class='n'>67%</td><td class='n'>13%</td><td class='n'>0.83</td><td class='n'>4.1</td></tr>
+<tr><td>2026-08-03</td><td class='n'>64</td><td class='n'>66%</td><td class='n'>15%</td><td class='n'>0.84</td><td class='n'>4.0</td></tr>
+<tr><td>2026-08-04</td><td class='n'>69</td><td class='n'>65%</td><td class='n'>16%</td><td class='n'>0.86</td><td class='n'>4.2</td></tr>
+<tr><td>2026-08-05</td><td class='n'>72</td><td class='n'>65%</td><td class='n'>15%</td><td class='n'>0.87</td><td class='n'>4.2</td></tr>
+<tr><td>2026-08-06</td><td class='n'>75</td><td class='n'>64%</td><td class='n'>16%</td><td class='n'>0.88</td><td class='n'>4.1</td></tr>
+<tr style='background:#FDF3F2'><td>2026-08-07</td><td class='n'>30</td><td class='n'>27%</td><td class='n'>71%</td><td class='n'>0.91</td><td class='n'>2.1</td></tr>
+</table>
+<p>Confidence climbs every single day while acceptance decays and then collapses. On the worst day in the file — acceptance down two-thirds, rating roughly halved — the model was more confident than it had ever been. That isn't a weak signal, it's an inverted one.</p>
+<h2>4 &nbsp;Rank by source, not by workflow</h2>
+<p><strong>This is Simpson's Paradox at work.</strong> Lead summary has a higher acceptance rate than Reply draft on its automatic source (65.8% via email, against 63.4% via queue). It also has a higher rate on the manual source (49.3% against 48.8%). It wins both. Yet combine each workflow's two sources into a single number and Lead summary comes out <em>behind</em> — 60.7% against 61.0%.</p>
+<p>The reason is the mix, not the performance. Manual work is accepted far less often than automatic work in every workflow here. Lead summary takes 31% of its sessions manually; Reply draft takes only 16%. So Lead summary carries more of the harder kind of work, and its combined number gets pulled down further — far enough to wipe out a lead it genuinely holds on both sources. <strong>Pooling the sources ranks workflows by the kind of input they receive, not by how well they perform.</strong> That's why every rate in this report is read per source.</p>
+<table><tr><th>Workflow</th><th>Source</th><th class='n'>Sessions</th><th class='n'>Acceptance</th><th class='n'>Completion</th><th class='n'>Flagged<br>(of outputs)</th><th class='n'>No verdict</th></tr>
+<tr class='grp'><td><strong>Lead summary</strong> <span class='k'>Sales</span></td><td>email</td><td class='n'>310</td><td class='n'>65.8%</td><td class='n'>81%</td><td class='n'>8.7%</td><td class='n'>&ge;10%</td></tr>
+<tr class='grp2'><td></td><td>manual</td><td class='n'>140</td><td class='n'>49.3%</td><td class='n'>70%</td><td class='n'>12.2%</td><td class='n'>&ge;17%</td></tr>
+<tr class='grp'><td><strong>Reply draft</strong> <span class='k'>Support</span></td><td>queue</td><td class='n'>426</td><td class='n'>63.4%</td><td class='n'>82%</td><td class='n'>17.5%</td><td class='n'>&ge;5%</td></tr>
+<tr class='grp2'><td></td><td>manual</td><td class='n'>84</td><td class='n'>48.8%</td><td class='n'>74%</td><td class='n'>12.9%</td><td class='n'>&ge;21%</td></tr>
+<tr class='grp'><td><strong>Feedback clustering</strong> <span class='k'>Product</span></td><td>csv upload</td><td class='n'>149</td><td class='n'>43.6%</td><td class='n'>64%</td><td class='n'>19.8%</td><td class='n'>&ge;12%</td></tr>
+<tr class='grp2'><td></td><td>manual</td><td class='n'>58</td><td class='n'>44.8%</td><td class='n'>72%</td><td class='n'>16.7%</td><td class='n'>&ge;21%</td></tr>
+</table>
+<p class='k'>&ldquo;No verdict&rdquo; = completed, but neither accepted nor flagged — nobody recorded an outcome. It's a lower bound: some outputs are both accepted and flagged, and any such overlap makes this group larger.</p>
+<div class='card warn'><h3>The most actionable finding: manual input costs ~13 points</h3><p>Automatic sources average <span class='big'>61%</span> acceptance; manual averages <span class='big'>48%</span>. This holds across three unrelated workflows and three different teams, which points at the input path rather than any one prompt — and that may be fixable in the intake form rather than the model.</p><p class='why'>Caveat before acting: this data can't distinguish <em class='q'>typing it in produces worse context</em> from <em class='q'>people only type it in when the case is unusual</em>. Those need different fixes. Look at what actually gets pasted into that box.</p></div>
+<h2>5 &nbsp;What to investigate before rolling out further</h2>
+<div class='card bad'><h3>Priority: what happened to Reply draft on 2026-08-07</h3><p>Three explanations fit the same numbers, and they imply opposite actions:</p><ul><li><strong>Output got worse</strong> — then the rollout should pause.</li><li><strong>The review gate got stricter</strong> — then output is unchanged and this is the policy working as designed.</li><li><strong>It's composition</strong> — two manual rows are missing that day, and sessions more than halved.</li></ul><p>Daily aggregates cannot separate these. There is no session-level key, so acceptance and flagging can't be joined per output.</p><p class='why'><strong>Cheapest way to settle it:</strong> pull ~20 flagged Reply draft outputs from before the change and ~20 after, and have a team lead rate them blind. An afternoon's work, and it answers what the logs structurally can't. Separately, ask whoever owns the export why those rows are missing.</p></div>
+<div class='card none'><h3>Not yet answerable: did the prompt change help?</h3><p>No step change appears in any workflow at the prompt-change date. Feedback clustering was already drifting down beforehand; Lead summary is flat; Reply draft declines steadily throughout. The post-change window is three clean days, on rising volume, ending in a day that's both partial and confounded by the policy change.</p><p class='why'>Volume also grows daily, so pooled totals are weighted toward the post-change period — any &ldquo;overall&rdquo; number is quietly a post-change number. Give it two clean weeks with no other changes, then ask again.</p></div>
+<h4>The weekly check</h4><p>Re-run this script on the new export. It <em>is</em> the check:</p><ul><li>Section 3 — did anything get excluded, and are any days incomplete?</li><li>Section 4 — acceptance per workflow <strong>per source</strong>, never pooled.</li><li>Any workflow whose no-verdict share is climbing.</li><li>One line recording any prompt or policy change that week, so next week's reader knows what to attribute movement to.</li></ul><p class='k'>Two things worth instrumenting so future weeks can answer more: a session-level key (so acceptance and flagging can be joined per output), and a reason code on flags (so &ldquo;stricter policy&rdquo; and &ldquo;worse output&rdquo; stop being indistinguishable).</p>
+<div class='foot'>Every rate here is a pooled count — numerator and denominator summed, divided once. Averaging per-row rates instead would over-weight small rows and, on this export, reverses the workflow ranking outright.</div>
